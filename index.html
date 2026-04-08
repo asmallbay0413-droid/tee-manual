@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEEオリエンテーションマニュアル</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a6cbf">
+<link rel="icon" href="images/icon-192.png">
+<link rel="apple-touch-icon" href="images/icon-192.png">
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #1E40AF;
+  --primary-light: #3B82F6;
+  --bg: #F8FAFC;
+  --card: #FFFFFF;
+  --text-main: #1E293B;
+  --text-sub: #64748B;
+  --success: #16A34A;
+  --danger: #DC2626;
+  --warning: #D97706;
+  --info: #2563EB;
+  --critical-bg: #FEE2E2;
+  --critical-border: #DC2626;
+  --warning-bg: #FEF3C7;
+  --warning-border: #D97706;
+  --info-bg: #DBEAFE;
+  --info-border: #2563EB;
+  --checked-bg: #F0FDF4;
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --header-h: 56px;
+  --footer-h: 60px;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-main);
+  background: var(--bg);
+  padding-top: var(--header-h);
+  padding-bottom: var(--footer-h);
+}
+
+/* ===== Header ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ===== Footer Tab Bar ===== */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-h);
+  background: var(--card);
+  display: flex;
+  border-top: 1px solid #E2E8F0;
+  z-index: 100;
+}
+
+.tab-bar button {
+  flex: 1;
+  border: none;
+  background: none;
+  font-size: 9px;
+  color: var(--text-sub);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
+  padding: 5px 1px;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1.2;
+}
+
+.tab-bar button .tab-icon { font-size: 18px; }
+
+.tab-bar button.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.tab-bar button.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 0 0 3px 3px;
+}
+
+.tab-bar button { position: relative; }
+
+/* ===== Tab Panels ===== */
+.tab-panel {
+  display: none;
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tab-panel.active { display: block; }
+
+/* ===== Flowchart ===== */
+.flowchart {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.flow-box {
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-card);
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.flow-box:hover, .flow-box:focus { background: var(--primary-light); }
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ===== Section Title ===== */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 24px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-light);
+}
+
+/* ===== Accordion (details/summary) ===== */
+details.accordion {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+details.accordion summary {
+  padding: 14px 16px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+details.accordion summary::-webkit-details-marker { display: none; }
+
+details.accordion summary::before {
+  content: '>';
+  display: inline-block;
+  font-weight: bold;
+  color: var(--primary);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+details.accordion[open] summary::before { transform: rotate(90deg); }
+
+details.accordion .accordion-body {
+  padding: 0 16px 16px;
+  font-size: 15px;
+}
+
+details.accordion .accordion-body ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+details.accordion .accordion-body ul li {
+  margin-bottom: 6px;
+}
+
+details.accordion .accordion-body .sub-list {
+  list-style: circle;
+  padding-left: 20px;
+  margin-top: 4px;
+}
+
+/* ===== Alert Boxes ===== */
+.alert {
+  border-left: 4px solid;
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.alert-critical {
+  background: var(--critical-bg);
+  border-color: var(--critical-border);
+}
+
+.alert-warning {
+  background: var(--warning-bg);
+  border-color: var(--warning-border);
+}
+
+.alert-info {
+  background: var(--info-bg);
+  border-color: var(--info-border);
+}
+
+.alert-icon { margin-right: 6px; }
+
+/* ===== Checklist Tab ===== */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  background: var(--card);
+  padding: 12px 16px;
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.toggle-label { font-weight: 600; font-size: 15px; }
+
+.toggle-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--primary);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggle-switch input:checked + .toggle-slider { background: var(--success); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(24px); }
+
+.toggle-active { color: var(--primary); font-weight: 700; }
+
+/* Phase Group */
+.phase-group {
+  margin-bottom: 16px;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.phase-badge {
+  background: rgba(255,255,255,0.25);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.phase-badge.complete {
+  background: var(--success);
+}
+
+.checklist-items {
+  background: var(--card);
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Checklist Item */
+.check-item {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #F1F5F9;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  gap: 12px;
+  transition: background 0.15s;
+}
+
+.check-item:last-child { border-bottom: none; }
+
+.check-item.checked {
+  background: var(--checked-bg);
+}
+
+.check-item .check-icon {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #CBD5E1;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: transparent;
+  transition: all 0.15s;
+}
+
+.check-item.checked .check-icon {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+
+.check-item .check-text {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.check-item .check-tag {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.tag-inpatient {
+  background: #DBEAFE;
+  color: var(--primary);
+}
+
+.tag-outpatient {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+/* Inline alerts in checklist */
+.check-alert {
+  padding: 8px 16px;
+  border-left: 4px solid;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.check-alert.alert-critical { background: var(--critical-bg); border-color: var(--critical-border); }
+.check-alert.alert-warning { background: var(--warning-bg); border-color: var(--warning-border); }
+.check-alert.alert-info { background: var(--info-bg); border-color: var(--info-border); }
+
+/* Reset button */
+.reset-btn {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 24px auto;
+  padding: 14px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.reset-btn:hover { opacity: 0.9; }
+
+/* ===== Emergency Tab ===== */
+
+/* Midazolam time banner */
+.midaz-banner {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  background: #7F1D1D;
+  color: #fff;
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 15px;
+  animation: pulse-red 2s ease-in-out infinite;
+}
+.midaz-banner.visible { display: flex; }
+.midaz-banner-icon { font-size: 24px; flex-shrink: 0; }
+.midaz-banner-text { flex: 1; line-height: 1.4; }
+.midaz-banner-text small { font-weight: 400; font-size: 12px; display: block; opacity: 0.85; }
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(220,38,38,0); }
+}
+
+/* CRITICAL cards (top of emergency) */
+.critical-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+.critical-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--critical-bg);
+  border: 1.5px solid var(--critical-border);
+  border-left: 5px solid var(--critical-border);
+  border-radius: var(--radius-card);
+  padding: 12px 14px;
+}
+.critical-card-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.critical-card-body { flex: 1; }
+.critical-card-title { font-weight: 700; font-size: 15px; color: #991B1B; margin-bottom: 2px; }
+.critical-card-desc { font-size: 13px; color: #7F1D1D; line-height: 1.5; }
+
+/* 2-column grid for ward contacts */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Compact contact card (grid item) */
+.contact-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: var(--card);
+  border-radius: 8px;
+  border-top: 3px solid var(--primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+.contact-compact.urgent { border-top-color: #DC2626; }
+.contact-compact .cc-info {
+  padding: 8px 10px 4px;
+  flex: 1;
+}
+.contact-compact .cc-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-main);
+}
+.call-btn-sm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: #E2E8F0;
+  color: #334155;
+  text-decoration: none;
+  width: 100%;
+  min-height: 38px;
+  padding: 6px 10px;
+  font-weight: 700;
+  font-size: 12px;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: 4px;
+}
+.call-btn-sm:active { opacity: 0.8; }
+.call-btn-sm .call-icon { font-size: 14px; }
+.call-btn-sm.placeholder { background: #CBD5E1; color: #64748B; cursor: default; }
+
+/* ID Tab */
+.id-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+.id-table th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 13px;
+}
+.id-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.id-table tr:last-child td { border-bottom: none; }
+.id-table td:first-child { font-weight: 600; width: 35%; }
+.id-val {
+  font-family: 'SF Mono', 'Menlo', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.05em;
+}
+.id-empty {
+  color: #CBD5E1;
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* Contact section label */
+.contact-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin: 20px 0 8px;
+  padding-left: 2px;
+}
+
+/* Contact card — redesigned for large tap target */
+.contact-card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 4px solid var(--primary);
+}
+.contact-card.urgent { border-left-color: var(--danger); }
+.contact-card.secondary { border-left-color: #94A3B8; }
+
+.contact-card .contact-info { flex: 1; min-width: 0; }
+.contact-card .contact-name { font-weight: 700; font-size: 15px; }
+.contact-card .contact-desc { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+/* Large call button */
+.call-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: #16A34A;
+  color: #fff;
+  text-decoration: none;
+  min-width: 72px;
+  min-height: 56px;
+  padding: 8px 10px;
+  border-radius: var(--radius-card);
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.1s;
+}
+.call-btn:active { opacity: 0.8; }
+.call-btn .call-icon { font-size: 20px; }
+.call-btn .call-num { font-size: 12px; letter-spacing: 0.04em; }
+.call-btn.placeholder {
+  background: #CBD5E1;
+  color: #64748B;
+  font-size: 11px;
+  cursor: default;
+}
+
+/* Drug table */
+.drug-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+.drug-table th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 13px;
+}
+.drug-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #F1F5F9;
+  vertical-align: top;
+  line-height: 1.6;
+}
+.drug-table tr:last-child td { border-bottom: none; }
+.drug-table td:first-child { font-weight: 700; width: 40%; }
+.drug-limit {
+  display: inline-block;
+  background: #FEE2E2;
+  color: #991B1B;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.drug-ok {
+  display: inline-block;
+  background: #DCFCE7;
+  color: #166534;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+/* ===== Infection Control Stepper ===== */
+.stepper {
+  position: relative;
+  padding-left: 40px;
+  margin: 16px 0;
+}
+
+.step {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.step:last-child { padding-bottom: 0; }
+
+.step::before {
+  content: attr(data-step);
+  position: absolute;
+  left: -40px;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  left: -26px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: #CBD5E1;
+}
+
+.step:last-child::after { display: none; }
+
+.step .step-text {
+  font-size: 15px;
+  padding-top: 3px;
+}
+
+.step .step-note {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 2px;
+}
+
+/* Hygiene 2-column */
+.hygiene-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+@media (max-width: 500px) {
+  .hygiene-grid { grid-template-columns: 1fr; }
+}
+
+.hygiene-col {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.hygiene-col h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.hygiene-col ul {
+  list-style: disc;
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+.hygiene-col li { margin-bottom: 4px; }
+
+/* ===== Photo Placeholder ===== */
+.photo-placeholder {
+  background: #F1F5F9;
+  border: 2px dashed #CBD5E1;
+  border-radius: var(--radius-card);
+  padding: 20px 16px;
+  text-align: center;
+  margin: 12px 0;
+  color: var(--text-sub);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.photo-placeholder .photo-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.photo-placeholder .photo-label {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+@media (max-width: 400px) {
+  .photo-grid { grid-template-columns: 1fr; }
+}
+
+.photo-grid .photo-placeholder {
+  margin: 0;
+}
+
+/* ===== Staff ID Table ===== */
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+
+.staff-table th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.staff-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 14px;
+}
+
+.staff-table tr:last-child td { border-bottom: none; }
+
+.staff-table .id-placeholder {
+  color: var(--text-sub);
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* ===== Contact Section Divider ===== */
+.contact-section-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin: 20px 0 8px;
+  padding-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Cases ===== */
+.case-card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  font-size: 14px;
+}
+
+.case-card .case-num {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* ===== FAB: Back to Top ===== */
+.fab-top {
+  position: fixed;
+  bottom: calc(var(--footer-h) + 16px);
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fab-top.visible { display: flex; }
+
+/* ===== Dialog / Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal-overlay.hidden { display: none; }
+
+.modal-box {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-box p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modal-btns {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-btns button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-secondary { background: #E2E8F0; color: var(--text-main); }
+
+/* ===== Responsive ===== */
+@media (max-width: 500px) {
+  .flowchart { gap: 4px; }
+  .flow-box { font-size: 12px; padding: 8px 4px; }
+  .flow-arrow { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <h1>TEEマニュアル</h1>
+</header>
+
+<!-- Tab Panels -->
+<main>
+  <!-- ===== Manual Tab ===== -->
+  <div id="tab-manual" class="tab-panel">
+
+    <!-- Flowchart -->
+    <h2 class="section-title">検査フロー</h2>
+    <div class="flowchart">
+      <div class="flow-box" data-target="sec-1">事前準備</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" data-target="sec-2">患者呼出</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" data-target="sec-3">前処置室</div>
+
+      <div class="flow-box" data-target="sec-4">検査室</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" data-target="sec-5">退室</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" data-target="sec-6">その後</div>
+    </div>
+
+    <!-- Chapter 1 -->
+    <details class="accordion" id="sec-1">
+      <summary>1. 事前準備編</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>症例数をHIS外来→TEEまたはエコー発番リストから確認</li>
+          <li>共有パワーポイントに症例を記載</li>
+          <li>予定患者リストを検査室内に掲示（外来は予約時間も記載）</li>
+          <li>ミダゾラム使用有無の同意書を確認→パワポに静脈麻酔の有・無を記載</li>
+          <li>医療安全チェックシートをYageeからコピー</li>
+          <li>前回のTEE・TTE結果をコピー</li>
+          <li>オーダー表（マネージの机から取得）+ チェックシート + 検査結果 → クリアファイル → 棚側面box</li>
+          <li>指導医に連絡（症例順番・二部屋運用の相談）</li>
+          <li>生食・3方活栓の準備
+            <ul class="sub-list">
+              <li>入院: 20ccロック付シリンジ(生食18mL+18G針) + 10ccロック付シリンジ(生食8-10mL+3方活栓)</li>
+              <li>外来: 上記 + 末梢確保の準備</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="photo-grid">
+          <figure class="photo-figure" style="margin:0;"><img src="images/saline-3way-set.jpg" alt="生食・3方活栓セット準備完了状態" style="width:100%;max-width:360px;height:auto;border-radius:8px;display:block;"><figcaption style="font-size:12px;color:var(--text-sub);margin-top:4px;text-align:center;">生食・3方活栓セット（準備完了状態）</figcaption></figure>
+        </div>
+      </div>
+    </details>
+
+    <!-- Chapter 2 -->
+    <details class="accordion" id="sec-2">
+      <summary>2. 患者呼び出し編</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>検査優先順位を確認: (1)外来予約→(2)当日DC血栓チェック→(3)入院→(4)出張TEE</li>
+          <li>前処置室の混雑状況を確認（呼出し過ぎ注意）</li>
+          <li>[外来] 予約時間通りに検査できるよう順番調整</li>
+        </ul>
+        <div class="alert alert-warning"><span class="alert-icon">&#9888;&#65039;</span>WARNING: 呼出し過ぎると前処置室が混雑→患者間違い・順番前後のリスク</div>
+        <div class="alert alert-info"><span class="alert-icon">&#8505;&#65039;</span>INFO: 泉先生は会議のため時間制限あり→弁膜症を先に行うことも（要確認）</div>
+      </div>
+    </details>
+
+    <!-- Chapter 3 -->
+    <details class="accordion" id="sec-3">
+      <summary>3. 前処置室編</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>タイムアウト(1): 名前・生年月日・ID確認（2名以上で実施）</li>
+          <li>看護師からミダゾラム1A + 生食20mLを受取（IDカードは看護師に返却）</li>
+          <li>入れ歯・抜けそうな歯チェック（入れ歯は外す）</li>
+          <li>安全チェックシートに沿った確認</li>
+          <li>点滴確認（末梢が詰まっていないか、生食が流れるか）</li>
+          <li>[外来] 末梢確保</li>
+          <li>[外来] 鎮静薬使用の同意書確認（家族同伴・運転なし必須）</li>
+          <li>ミダゾラム管理手順の確認</li>
+          <li>局所麻酔: キシロカインスプレー3噴霧×3セット（計9噴霧）</li>
+        </ul>
+        <div class="alert alert-warning"><span class="alert-icon">&#9888;&#65039;</span>WARNING: タイムアウト(1)は必ず2名以上で実施すること</div>
+        <div class="alert alert-critical"><span class="alert-icon">&#9940;</span>CRITICAL: [外来] 家族同伴・運転なしでないと鎮静不可（過去に自家用車で来院し鎮静した事例あり）</div>
+        <div class="alert alert-warning"><span class="alert-icon">&#9888;&#65039;</span>WARNING: ミダゾラム — 定数4本金庫管理、医師は金庫を自分で開けず技師から受取、記録簿は技師が記載、16:00までに事後処方（処方コメント「心エコーに薬剤を払い出し」必須）</div>
+        <div class="alert alert-critical"><span class="alert-icon">&#9940;</span>CRITICAL: キシロカインスプレー合計20噴霧（リドカイン160mg）以上禁止（過去に中毒例あり、高齢者は特に注意）</div>
+      </div>
+    </details>
+
+    <!-- Chapter 4 -->
+    <details class="accordion" id="sec-4">
+      <summary>4. 検査室編</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>ファイル・点滴(ミダゾラム等)を持って入室</li>
+          <li>FUJITSUエコー発番カルテで発番（経食道心エコー→受付→発番→ID・検査室入力）</li>
+          <li>エコー本体に患者ID入力→検索→選択</li>
+          <li>プローベナンバーを記入（エコー本体の真ん中やや右）</li>
+          <li>タイムアウト(2): 名前 + IDカード/リストバンドで確認</li>
+          <li>Vital測定→安全確認シートに記入</li>
+          <li>プローベカバー装着</li>
+          <li>マウスピース装着</li>
+          <li>ミダゾラム投与準備（投与量は上級医に相談）</li>
+          <li>血圧モニタリング開始（開始時・15分おき・終了時に測定→用紙+電カルテンプレート）</li>
+        </ul>
+        <div class="alert alert-warning"><span class="alert-icon">&#9888;&#65039;</span>WARNING: タイムアウト(2)を忘れずに実施</div>
+        <div class="alert alert-critical"><span class="alert-icon">&#9940;</span>CRITICAL: マウスピースを必ず装着（プローベ損傷の最大原因、定期的に噛んでいないか確認）</div>
+        <div class="photo-grid">
+          <figure class="photo-figure" style="margin:0;"><img src="images/probe-number-input.jpg" alt="プローベナンバー記入位置（コメント欄）" style="width:100%;max-width:480px;height:auto;border-radius:8px;display:block;"><figcaption style="font-size:12px;color:var(--text-sub);margin-top:4px;text-align:center;">プローベナンバー記入位置：患者データ画面の「コメント」欄</figcaption></figure>
+        </div>
+      </div>
+    </details>
+
+    <!-- Chapter 5 -->
+    <details class="accordion" id="sec-5">
+      <summary>5. 退室編</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>プローベ抜去→カバー外し→ガウン脱ぎ→洗浄場所へ</li>
+          <li>患者を起こして車椅子に移動</li>
+          <li>[入院] 病棟に電話して迎え呼び</li>
+          <li>[外来] PHS 40496にTEL→外来看護師呼出</li>
+          <li>[外来] 覚醒確認→帰宅可能の判断</li>
+          <li>プローベをBox→チャイム（消毒液つけっぱなし注意）</li>
+          <li>感染対策手順の実施</li>
+          <li>後片付け（キシロカインゼリー等の清掃、文書類整理）</li>
+          <li>パワポの表を担当技師に提出</li>
+          <li>使用ミダゾラム数の確認</li>
+        </ul>
+        <div class="alert alert-critical"><span class="alert-icon">&#9940;</span>CRITICAL: 看護師引継ぎまで誰かが密に監視（過去に転倒事故あり）</div>
+        <figure class="photo-figure" style="margin:0;"><img src="images/probe-transport-box.png" alt="プローベ搬送Box 収納手順" style="width:100%;max-width:480px;height:auto;border-radius:8px;display:block;"><figcaption style="font-size:12px;color:var(--text-sub);margin-top:4px;text-align:center;">プローベ搬送Box（①〜③の手順）</figcaption></figure>
+      </div>
+    </details>
+
+    <!-- Chapter 6 -->
+    <details class="accordion" id="sec-6">
+      <summary>6. その後</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>時間外: プローベ消毒・物品片付け・プローベナンバー記入を必ず行う</li>
+          <li>小児用プローベ: 藤本先生に連絡</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Chapter 7 -->
+    <details class="accordion" id="sec-7">
+      <summary>7. 個別の問題</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>緑内障患者のミダゾラム: 科内で検討中</li>
+          <li>プローベ損傷: マウスピース装着必須</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Chapter 8: Cases -->
+    <details class="accordion" id="sec-8">
+      <summary>8. これまでの事例</summary>
+      <div class="accordion-body">
+        <div class="case-card"><span class="case-num">1</span>キシロカインショックの事例</div>
+        <div class="case-card"><span class="case-num">2</span>通路で放置されていた事例</div>
+        <div class="case-card"><span class="case-num">3</span>ミダゾラム数の不一致事例</div>
+        <div class="case-card"><span class="case-num">4</span>外来患者が自家用車で来ているのに鎮静した事例</div>
+        <div class="case-card"><span class="case-num">5</span>ミダゾラム投与なしなのに投与された事例</div>
+        <div class="case-card"><span class="case-num">6</span>外来患者を長時間待たせた事例</div>
+        <div class="case-card"><span class="case-num">7</span>笑い声が気になるというクレーム</div>
+        <div class="case-card"><span class="case-num">8</span>結核患者にTEE施行した事例</div>
+      </div>
+    </details>
+
+    <!-- Infection Control -->
+    <h2 class="section-title" id="sec-infection">感染対策</h2>
+
+    <details class="accordion">
+      <summary>事前確認</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>患者の発熱・咳嗽・感染症状の確認</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>手指衛生タイミング</summary>
+      <div class="accordion-body">
+        <div class="hygiene-grid">
+          <div class="hygiene-col">
+            <h4>つけるとき</h4>
+            <ul>
+              <li>患者に触れる前</li>
+              <li>プローブに触れる前</li>
+              <li>静脈注射の前</li>
+            </ul>
+          </div>
+          <div class="hygiene-col">
+            <h4>脱いだ後</h4>
+            <ul>
+              <li>手袋を脱いだ後</li>
+              <li>患者や環境に触れた後</li>
+            </ul>
+          </div>
+        </div>
+        <div class="alert alert-warning"><span class="alert-icon">&#9888;&#65039;</span>WARNING: 安易な手袋つけっぱなし禁止（患者を危険にさらす）</div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>PPE装着順（飛沫予防策）</summary>
+      <div class="accordion-body">
+        <div class="stepper">
+          <div class="step" data-step="1"><div class="step-text">アイソレーションガウン</div></div>
+          <div class="step" data-step="2"><div class="step-text">サージカルマスク</div></div>
+          <div class="step" data-step="3"><div class="step-text">ゴーグル</div></div>
+          <div class="step" data-step="4"><div class="step-text">手指衛生</div></div>
+          <div class="step" data-step="5"><div class="step-text">手袋</div></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>PPE装着順（標準予防策）</summary>
+      <div class="accordion-body">
+        <div class="stepper">
+          <div class="step" data-step="1"><div class="step-text">プラスチックエプロン</div></div>
+          <div class="step" data-step="2"><div class="step-text">サージカルマスク</div></div>
+          <div class="step" data-step="3"><div class="step-text">手袋</div></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>PPE脱衣順（検査室内で脱ぐ）</summary>
+      <div class="accordion-body">
+        <div class="stepper">
+          <div class="step" data-step="1">
+            <div class="step-text">手袋</div>
+            <div class="step-note">最も汚染→最初に外す</div>
+          </div>
+          <div class="step" data-step="2"><div class="step-text">ガウン</div></div>
+          <div class="step" data-step="3"><div class="step-text">エプロン</div></div>
+          <div class="step" data-step="4"><div class="step-text">ゴーグル</div></div>
+          <div class="step" data-step="5"><div class="step-text">マスク</div></div>
+          <div class="step" data-step="6"><div class="step-text">手指衛生</div></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>プローブ搬送</summary>
+      <div class="accordion-body">
+        <div class="stepper">
+          <div class="step" data-step="1"><div class="step-text">先端カバー装着</div></div>
+          <div class="step" data-step="2"><div class="step-text">ハンドル・ケーブル・コネクタを清拭</div></div>
+          <div class="step" data-step="3"><div class="step-text">ビニール袋で被覆</div></div>
+          <div class="step" data-step="4">
+            <div class="step-text">コンテナに入れて搬送</div>
+            <div class="step-note">ケーブルを曲げないようハンドルを出す</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="accordion">
+      <summary>検査室清掃</summary>
+      <div class="accordion-body">
+        <ul>
+          <li>ディスポシーツ交換</li>
+          <li>環境拭き取り清掃（手すり・スイッチ・エコー操作盤をソフライトで拭く）</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- ===== Checklist Tab ===== -->
+  <div id="tab-check" class="tab-panel">
+
+    <!-- Toggle -->
+    <div class="toggle-row">
+      <span class="toggle-label toggle-active" id="lbl-inpatient">入院</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-type">
+        <span class="toggle-slider"></span>
+      </label>
+      <span class="toggle-label" id="lbl-outpatient">外来</span>
+    </div>
+
+    <!-- Phase 1: 事前準備 -->
+    <div class="phase-group" data-phase="prep">
+      <div class="phase-header">
+        <span>1. 事前準備</span>
+        <span class="phase-badge" data-badge="prep">0/9</span>
+      </div>
+      <div class="checklist-items">
+        <div class="check-item" data-id="p1"><span class="check-icon">&#10003;</span><span class="check-text">症例数をHIS外来→TEEまたはエコー発番リストから確認</span></div>
+        <div class="check-item" data-id="p2"><span class="check-icon">&#10003;</span><span class="check-text">共有パワーポイントに症例を記載</span></div>
+        <div class="check-item" data-id="p3"><span class="check-icon">&#10003;</span><span class="check-text">予定患者リストを検査室内に掲示（外来は予約時間も記載）</span></div>
+        <div class="check-item" data-id="p4"><span class="check-icon">&#10003;</span><span class="check-text">ミダゾラム使用有無の同意書確認→パワポに記載</span></div>
+        <div class="check-item" data-id="p5"><span class="check-icon">&#10003;</span><span class="check-text">医療安全チェックシートをYageeからコピー</span></div>
+        <div class="check-item" data-id="p6"><span class="check-icon">&#10003;</span><span class="check-text">前回のTEE・TTE結果をコピー</span></div>
+        <div class="check-item" data-id="p7"><span class="check-icon">&#10003;</span><span class="check-text">オーダー表+チェックシート+検査結果→クリアファイル→棚側面box</span></div>
+        <div class="check-item" data-id="p8"><span class="check-icon">&#10003;</span><span class="check-text">指導医に連絡（症例順番・二部屋運用の相談）</span></div>
+        <div class="check-item" data-id="p9"><span class="check-icon">&#10003;</span><span class="check-text">生食・3方活栓の準備</span></div>
+      </div>
+    </div>
+
+    <!-- Phase 2: 患者呼び出し -->
+    <div class="phase-group" data-phase="call">
+      <div class="phase-header">
+        <span>2. 患者呼び出し</span>
+        <span class="phase-badge" data-badge="call">0/3</span>
+      </div>
+      <div class="checklist-items">
+        <div class="check-item" data-id="c1"><span class="check-icon">&#10003;</span><span class="check-text">検査優先順位を確認</span></div>
+        <div class="check-item" data-id="c2"><span class="check-icon">&#10003;</span><span class="check-text">前処置室の混雑状況を確認</span></div>
+        <div class="check-item" data-id="c3" data-type="outpatient"><span class="check-icon">&#10003;</span><span class="check-text">予約時間通りに検査できるよう順番調整</span><span class="check-tag tag-outpatient">外来</span></div>
+        <div class="check-alert alert-warning">&#9888;&#65039; 呼出し過ぎると前処置室が混雑→患者間違い・順番前後のリスク</div>
+      </div>
+    </div>
+
+    <!-- Phase 3: 前処置室 -->
+    <div class="phase-group" data-phase="pre">
+      <div class="phase-header">
+        <span>3. 前処置室</span>
+        <span class="phase-badge" data-badge="pre">0/9</span>
+      </div>
+      <div class="checklist-items">
+        <div class="check-item" data-id="r1"><span class="check-icon">&#10003;</span><span class="check-text">タイムアウト(1): 名前・生年月日・ID確認（2名以上）</span></div>
+        <div class="check-alert alert-warning">&#9888;&#65039; タイムアウト(1)は必ず2名以上で実施すること</div>
+        <div class="check-item" data-id="r2"><span class="check-icon">&#10003;</span><span class="check-text">看護師からミダゾラム1A + 生食20mLを受取</span></div>
+        <div class="check-item" data-id="r3"><span class="check-icon">&#10003;</span><span class="check-text">入れ歯・抜けそうな歯チェック</span></div>
+        <div class="check-item" data-id="r4"><span class="check-icon">&#10003;</span><span class="check-text">安全チェックシートに沿った確認</span></div>
+        <div class="check-item" data-id="r5"><span class="check-icon">&#10003;</span><span class="check-text">点滴確認（末梢が詰まっていないか）</span></div>
+        <div class="check-item" data-id="r6" data-type="outpatient"><span class="check-icon">&#10003;</span><span class="check-text">末梢確保</span><span class="check-tag tag-outpatient">外来</span></div>
+        <div class="check-item" data-id="r7" data-type="outpatient"><span class="check-icon">&#10003;</span><span class="check-text">鎮静薬使用の同意書確認（家族同伴・運転なし必須）</span><span class="check-tag tag-outpatient">外来</span></div>
+        <div class="check-alert alert-critical">&#9940; [外来] 家族同伴・運転なしでないと鎮静不可（過去に自家用車で来院し鎮静した事例あり）</div>
+        <div class="check-item" data-id="r8"><span class="check-icon">&#10003;</span><span class="check-text">ミダゾラム管理手順の確認</span></div>
+        <div class="check-alert alert-warning">&#9888;&#65039; ミダゾラム — 定数4本金庫管理、16:00までに事後処方必須</div>
+        <div class="check-item" data-id="r9"><span class="check-icon">&#10003;</span><span class="check-text">局所麻酔: キシロカインスプレー3噴霧×3セット</span></div>
+        <div class="check-alert alert-critical">&#9940; キシロカイン合計20噴霧（160mg）以上禁止（過去に中毒例あり）</div>
+      </div>
+    </div>
+
+    <!-- Phase 4: 検査室 -->
+    <div class="phase-group" data-phase="exam">
+      <div class="phase-header">
+        <span>4. 検査室</span>
+        <span class="phase-badge" data-badge="exam">0/10</span>
+      </div>
+      <div class="checklist-items">
+        <div class="check-item" data-id="e1"><span class="check-icon">&#10003;</span><span class="check-text">ファイル・点滴を持って入室</span></div>
+        <div class="check-item" data-id="e2"><span class="check-icon">&#10003;</span><span class="check-text">FUJITSUエコー発番カルテで発番</span></div>
+        <div class="check-item" data-id="e3"><span class="check-icon">&#10003;</span><span class="check-text">エコー本体に患者ID入力→検索→選択</span></div>
+        <div class="check-item" data-id="e4"><span class="check-icon">&#10003;</span><span class="check-text">プローベナンバーを記入</span></div>
+        <div class="check-item" data-id="e5"><span class="check-icon">&#10003;</span><span class="check-text">タイムアウト(2): 名前 + IDカード/リストバンドで確認</span></div>
+        <div class="check-alert alert-warning">&#9888;&#65039; タイムアウト(2)を忘れずに実施</div>
+        <div class="check-item" data-id="e6"><span class="check-icon">&#10003;</span><span class="check-text">Vital測定→安全確認シートに記入</span></div>
+        <div class="check-item" data-id="e7"><span class="check-icon">&#10003;</span><span class="check-text">プローベカバー装着</span></div>
+        <div class="check-item" data-id="e8"><span class="check-icon">&#10003;</span><span class="check-text">マウスピース装着</span></div>
+        <div class="check-alert alert-critical">&#9940; マウスピース必ず装着（プローベ損傷の最大原因）</div>
+        <div class="check-item" data-id="e9"><span class="check-icon">&#10003;</span><span class="check-text">ミダゾラム投与準備（投与量は上級医に相談）</span></div>
+        <div class="check-item" data-id="e10"><span class="check-icon">&#10003;</span><span class="check-text">血圧モニタリング開始</span></div>
+      </div>
+    </div>
+
+    <!-- Phase 5: 退室 -->
+    <div class="phase-group" data-phase="exit">
+      <div class="phase-header">
+        <span>5. 退室</span>
+        <span class="phase-badge" data-badge="exit">0/10</span>
+      </div>
+      <div class="checklist-items">
+        <div class="check-item" data-id="x1"><span class="check-icon">&#10003;</span><span class="check-text">プローベ抜去→カバー外し→洗浄場所へ</span></div>
+        <div class="check-item" data-id="x2"><span class="check-icon">&#10003;</span><span class="check-text">患者を起こして車椅子に移動</span></div>
+        <div class="check-item" data-id="x3" data-type="inpatient"><span class="check-icon">&#10003;</span><span class="check-text">病棟に電話して迎え呼び</span><span class="check-tag tag-inpatient">入院</span></div>
+        <div class="check-item" data-id="x4" data-type="outpatient"><span class="check-icon">&#10003;</span><span class="check-text">PHS 40496にTEL→外来看護師呼出</span><span class="check-tag tag-outpatient">外来</span></div>
+        <div class="check-item" data-id="x5" data-type="outpatient"><span class="check-icon">&#10003;</span><span class="check-text">覚醒確認→帰宅可能の判断</span><span class="check-tag tag-outpatient">外来</span></div>
+        <div class="check-alert alert-critical">&#9940; 看護師引継ぎまで誰かが密に監視（過去に転倒事故あり）</div>
+        <div class="check-item" data-id="x6"><span class="check-icon">&#10003;</span><span class="check-text">プローベをBox→チャイム</span></div>
+        <div class="check-item" data-id="x7"><span class="check-icon">&#10003;</span><span class="check-text">感染対策手順の実施</span></div>
+        <div class="check-item" data-id="x8"><span class="check-icon">&#10003;</span><span class="check-text">後片付け（キシロカインゼリー等の清掃、文書類整理）</span></div>
+        <div class="check-item" data-id="x9"><span class="check-icon">&#10003;</span><span class="check-text">パワポの表を担当技師に提出</span></div>
+        <div class="check-item" data-id="x10"><span class="check-icon">&#10003;</span><span class="check-text">使用ミダゾラム数の確認</span></div>
+      </div>
+    </div>
+
+    <button class="reset-btn" id="btn-reset">次の患者へ（チェックリストをリセット）</button>
+  </div>
+
+  <!-- ===== 連絡先タブ ===== -->
+  <div id="tab-emergency" class="tab-panel active">
+
+    <!-- Midazolam time reminder banner (shown after 15:30) -->
+    <div class="midaz-banner" id="midaz-banner">
+      <span class="midaz-banner-icon">⏰</span>
+      <div class="midaz-banner-text">
+        ミダゾラム事後処方を確認！
+        <small>16:00までに処方を完了してください（コメント必須）</small>
+      </div>
+    </div>
+
+    <!-- 病棟・外来（2列グリッド） -->
+    <div class="contact-section-label">🏥 病棟・外来</div>
+
+    <div class="contact-grid">
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">外来</div></div>
+        <a href="tel:40496" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40496</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">10W</div></div>
+        <a href="tel:40478" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40478</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">9W</div></div>
+        <a href="tel:40480" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40480</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">8W</div></div>
+        <a href="tel:40482" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40482</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">8E</div></div>
+        <a href="tel:40481" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40481</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">7W</div></div>
+        <a href="tel:40484" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40484</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">7E</div></div>
+        <a href="tel:40483" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40483</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">6N</div></div>
+        <a href="tel:40487" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40487</span>
+        </a>
+      </div>
+      <div class="contact-compact urgent">
+        <div class="cc-info"><div class="cc-name">CCU</div></div>
+        <a href="tel:40495" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40495</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- その他 -->
+    <div class="contact-section-label" style="margin-top:12px">📌 その他</div>
+
+    <div class="contact-grid">
+      <div class="contact-compact">
+        <div class="cc-info"><div class="cc-name">薬剤部</div></div>
+        <a href="tel:" class="call-btn-sm placeholder">
+          <span class="call-icon">📞</span><span>____</span>
+        </a>
+      </div>
+      <div class="contact-compact">
+        <div class="cc-info"><div class="cc-name">エコー検査室</div></div>
+        <a href="tel:" class="call-btn-sm placeholder">
+          <span class="call-icon">📞</span><span>____</span>
+        </a>
+      </div>
+      <div class="contact-compact">
+        <div class="cc-info"><div class="cc-name">藤本先生</div></div>
+        <a href="tel:" class="call-btn-sm placeholder">
+          <span class="call-icon">📞</span><span>____</span>
+        </a>
+      </div>
+      <div class="contact-compact">
+        <div class="cc-info"><div class="cc-name">救急外来</div></div>
+        <a href="tel:40602" class="call-btn-sm">
+          <span class="call-icon">📞</span><span>40602</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== 注意事項タブ ===== -->
+  <div id="tab-caution" class="tab-panel">
+
+    <h2 class="section-title">⛔ CRITICAL警告</h2>
+    <div class="alert alert-info" style="margin-bottom:16px"><span class="alert-icon">ℹ️</span>過去の実際のインシデントをもとにした必須確認事項です。</div>
+
+    <div class="critical-list">
+      <div class="critical-card">
+        <span class="critical-card-icon">⛔</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title">キシロカイン上限超過禁止</div>
+          <div class="critical-card-desc">合計<strong>20噴霧（リドカイン160mg）以上禁止</strong>。過去に中毒例あり。高齢者は特に注意。</div>
+        </div>
+      </div>
+      <div class="critical-card">
+        <span class="critical-card-icon">⛔</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title">看護師引継ぎまで目を離さない</div>
+          <div class="critical-card-desc">鎮静後は看護師に引き継ぐまで誰かが密に監視。<strong>過去に転倒事故あり</strong>。</div>
+        </div>
+      </div>
+      <div class="critical-card">
+        <span class="critical-card-icon">⛔</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title">マウスピース必ず装着</div>
+          <div class="critical-card-desc">プローベ損傷の最大原因。検査中も定期的に噛んでいないか確認。</div>
+        </div>
+      </div>
+      <div class="critical-card">
+        <span class="critical-card-icon">⛔</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title">外来患者: 運転・家族同伴確認</div>
+          <div class="critical-card-desc">家族同伴・運転なしでないと鎮静不可。<strong>過去に自家用車で来院し鎮静した事例あり</strong>。</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:28px">⚠️ WARNING</h2>
+
+    <div class="critical-list">
+      <div class="critical-card" style="background:#FEF3C7;border-color:#D97706;border-left-color:#D97706">
+        <span class="critical-card-icon">⚠️</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title" style="color:#92400E">タイムアウト①② 必ず2名以上で</div>
+          <div class="critical-card-desc" style="color:#78350F">前処置室・検査室入室時の2回とも2名以上で実施。</div>
+        </div>
+      </div>
+      <div class="critical-card" style="background:#FEF3C7;border-color:#D97706;border-left-color:#D97706">
+        <span class="critical-card-icon">⚠️</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title" style="color:#92400E">ミダゾラム 16:00処方期限</div>
+          <div class="critical-card-desc" style="color:#78350F">使用した場合は16:00までに事後処方。コメント「心エコーに薬剤を払い出し」必須。</div>
+        </div>
+      </div>
+      <div class="critical-card" style="background:#FEF3C7;border-color:#D97706;border-left-color:#D97706">
+        <span class="critical-card-icon">⚠️</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title" style="color:#92400E">呼び出しすぎに注意</div>
+          <div class="critical-card-desc" style="color:#78350F">前処置室の混雑→患者間違い・順番前後のリスク。状況を確認してから呼ぶ。</div>
+        </div>
+      </div>
+      <div class="critical-card" style="background:#FEF3C7;border-color:#D97706;border-left-color:#D97706">
+        <span class="critical-card-icon">⚠️</span>
+        <div class="critical-card-body">
+          <div class="critical-card-title" style="color:#92400E">手袋つけっぱなし禁止</div>
+          <div class="critical-card-desc" style="color:#78350F">安易な手袋装着継続は患者を危険にさらす。手指衛生の5つのタイミングを守る。</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:28px">📋 これまでの事例</h2>
+    <div class="alert alert-critical" style="margin-bottom:8px"><span class="alert-icon">⛔</span>キシロカインショックの事例</div>
+    <div class="alert alert-critical" style="margin-bottom:8px"><span class="alert-icon">⛔</span>外来患者が自家用車で来ているのに鎮静した事例</div>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>通路で放置されていた事例（転倒リスク）</div>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>ミダゾラム数の不一致事例</div>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>ミダゾラム投与なしなのに投与された事例</div>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>外来患者を長時間待たせた事例</div>
+    <div class="alert alert-info" style="margin-bottom:8px"><span class="alert-icon">ℹ️</span>笑い声が気になるというクレーム</div>
+    <div class="alert alert-info" style="margin-bottom:8px"><span class="alert-icon">ℹ️</span>結核患者にTEE施行した事例（感染対策の重要性）</div>
+
+  </div>
+
+  <!-- ===== IDタブ ===== -->
+  <div id="tab-id" class="tab-panel">
+
+    <h2 class="section-title">🪪 担当医・スタッフ ID</h2>
+    <div class="alert alert-info" style="margin-bottom:16px"><span class="alert-icon">ℹ️</span>電子カルテログイン・処方オーダーに必要なIDを管理してください。</div>
+
+    <table class="id-table">
+      <thead>
+        <tr><th>氏名</th><th>役割</th><th>院内ID / PHS</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>カイダ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV250157</span></td>
+        </tr>
+        <tr>
+          <td>クワハラ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV250162</span></td>
+        </tr>
+        <tr>
+          <td>ナリタ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV250371</span></td>
+        </tr>
+        <tr>
+          <td>ウエダ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV250154</span></td>
+        </tr>
+        <tr>
+          <td>ナワタ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV250159</span></td>
+        </tr>
+        <tr>
+          <td>クラカケ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV250161</span></td>
+        </tr>
+        <tr>
+          <td>チョウ</td>
+          <td style="font-size:13px;color:var(--text-sub)">専門修練医</td>
+          <td><span class="id-val">NV220225</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-title" style="margin-top:24px">📋 よく使う院内システム</h2>
+    <table class="id-table">
+      <thead>
+        <tr><th>システム</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>電子カルテ (Yagee)</td><td style="font-size:13px;color:var(--text-sub)">医療安全チェックシートのコピー元</td></tr>
+        <tr><td>FUJITSUエコー発番</td><td style="font-size:13px;color:var(--text-sub)">経食道心エコー→受付→発番</td></tr>
+        <tr><td>HIS外来</td><td style="font-size:13px;color:var(--text-sub)">TEE予約・症例数確認</td></tr>
+        <tr><td>共有パワーポイント</td><td style="font-size:13px;color:var(--text-sub)">症例・静脈麻酔の有無を記載</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- ===== 薬剤早見表タブ ===== -->
+  <div id="tab-drug" class="tab-panel">
+
+    <!-- Midazolam time reminder banner (shown after 15:30) -->
+    <div class="midaz-banner" id="midaz-banner-drug">
+      <span class="midaz-banner-icon">⏰</span>
+      <div class="midaz-banner-text">
+        ミダゾラム事後処方を確認！
+        <small>16:00までに処方を完了してください</small>
+      </div>
+    </div>
+
+    <h2 class="section-title">💊 薬剤量早見表</h2>
+
+    <table class="drug-table">
+      <thead>
+        <tr><th>薬剤</th><th>用量・注意点</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>キシロカインスプレー</td>
+          <td>
+            <span class="drug-ok">通常: 3噴霧 × 3セット = 9噴霧</span><br>
+            <span class="drug-limit">⛔ 上限: 20噴霧（160mg）絶対超過禁止</span><br>
+            <span style="font-size:12px;color:var(--text-sub)">高齢者は特に注意</span>
+          </td>
+        </tr>
+        <tr>
+          <td>ミダゾラム</td>
+          <td>
+            定数 <strong>4本</strong>（金庫管理）<br>
+            投与量は上級医に相談<br>
+            <span class="drug-limit">⏰ 16:00までに事後処方必須</span><br>
+            <span style="font-size:12px;color:var(--text-sub)">コメント「心エコーに薬剤を払い出し」を記載</span>
+          </td>
+        </tr>
+        <tr>
+          <td>生食</td>
+          <td>
+            入院: <span class="drug-ok">20cc(18mL) + 10cc(8-10mL)</span><br>
+            <span style="font-size:12px;color:var(--text-sub)">※ 20cc には後でミダゾラム 2mL を加える</span><br>
+            外来: 上記 + 末梢確保分
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-title" style="margin-top:24px">🧤 物品準備</h2>
+    <div class="alert alert-info" style="margin-bottom:8px"><span class="alert-icon">ℹ️</span><strong>20ccロック付シリンジ</strong>: 生食18mL ＋ 18G針　<span style="color:var(--warning);font-weight:700">※後でミダゾラム2mLを加える</span></div>
+    <div class="alert alert-info" style="margin-bottom:8px"><span class="alert-icon">ℹ️</span><strong>10ccロック付シリンジ</strong>: 生食8-10mL + 3方活栓</div>
+    <div class="alert alert-info" style="margin-bottom:8px"><span class="alert-icon">ℹ️</span><strong>外来追加</strong>: 末梢確保セット一式</div>
+
+    <h2 class="section-title" style="margin-top:24px">📋 ミダゾラム管理手順</h2>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>定数4本 金庫管理 — 医師は金庫を自分で開けず技師から受取</div>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>記録簿は技師が記載</div>
+    <div class="alert alert-warning" style="margin-bottom:8px"><span class="alert-icon">⚠️</span>16:00までに事後処方（処方コメント必須）</div>
+    <div class="alert alert-info"><span class="alert-icon">ℹ️</span>緑内障患者のミダゾラム使用は科内で検討中（要確認）</div>
+
+  </div>
+</main>
+
+<!-- Footer Tab Bar -->
+<nav class="tab-bar">
+  <button class="active" data-tab="tab-emergency">
+    <span class="tab-icon">📞</span>
+    <span>連絡先</span>
+  </button>
+  <button data-tab="tab-id">
+    <span class="tab-icon">🪪</span>
+    <span>ID</span>
+  </button>
+  <button data-tab="tab-manual">
+    <span class="tab-icon">📋</span>
+    <span>マニュアル</span>
+  </button>
+  <button data-tab="tab-check">
+    <span class="tab-icon">✅</span>
+    <span>チェック</span>
+  </button>
+  <button data-tab="tab-caution">
+    <span class="tab-icon">⛔</span>
+    <span>注意事項</span>
+  </button>
+  <button data-tab="tab-drug">
+    <span class="tab-icon">💊</span>
+    <span>薬剤</span>
+  </button>
+</nav>
+
+<!-- FAB: Back to Top -->
+<button class="fab-top" id="fab-top" aria-label="トップへ戻る">&#8593;</button>
+
+<!-- Modal -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <p id="modal-msg"></p>
+    <div class="modal-btns" id="modal-btns"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== Tab Switching =====
+  const tabBtns = document.querySelectorAll('.tab-bar button');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  function switchTab(targetId) {
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === targetId));
+    tabPanels.forEach(p => p.classList.toggle('active', p.id === targetId));
+    window.scrollTo(0, 0);
+  }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  // Flowchart boxes jump to manual tab then scroll
+  // (overrides the default below — keep reference for init)
+
+
+  // ===== Flowchart Navigation =====
+  document.querySelectorAll('.flow-box[data-target]').forEach(box => {
+    box.addEventListener('click', () => {
+      switchTab('tab-manual');
+      const target = document.getElementById(box.dataset.target);
+      if (target) {
+        target.open = true;
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      }
+    });
+  });
+
+  // ===== FAB: Back to Top =====
+  const fab = document.getElementById('fab-top');
+  window.addEventListener('scroll', () => {
+    fab.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+
+  fab.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ===== Modal Helper =====
+  const modalEl = document.getElementById('modal');
+  const modalMsg = document.getElementById('modal-msg');
+  const modalBtns = document.getElementById('modal-btns');
+
+  function showModal(msg, buttons) {
+    modalMsg.textContent = msg;
+    modalBtns.innerHTML = '';
+    buttons.forEach(b => {
+      const btn = document.createElement('button');
+      btn.textContent = b.text;
+      btn.className = b.cls || 'btn-primary';
+      btn.addEventListener('click', () => {
+        modalEl.classList.add('hidden');
+        if (b.action) b.action();
+      });
+      modalBtns.appendChild(btn);
+    });
+    modalEl.classList.remove('hidden');
+  }
+
+  // ===== Checklist Logic =====
+  const STORAGE_KEY = 'tee-checklist';
+  const toggleInput = document.getElementById('toggle-type');
+  const lblInpatient = document.getElementById('lbl-inpatient');
+  const lblOutpatient = document.getElementById('lbl-outpatient');
+
+  let checkedState = {}; // { id: true/false }
+
+  // Gather all check items
+  const allCheckItems = document.querySelectorAll('#tab-check .check-item');
+
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedState));
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return null;
+  }
+
+  function applyState() {
+    allCheckItems.forEach(item => {
+      const id = item.dataset.id;
+      if (checkedState[id]) {
+        item.classList.add('checked');
+      } else {
+        item.classList.remove('checked');
+      }
+    });
+    updateBadges();
+  }
+
+  function resetState() {
+    checkedState = {};
+    saveState();
+    applyState();
+  }
+
+  // Toggle type: inpatient / outpatient
+  function updateTypeVisibility() {
+    const isOutpatient = toggleInput.checked;
+    lblInpatient.classList.toggle('toggle-active', !isOutpatient);
+    lblOutpatient.classList.toggle('toggle-active', isOutpatient);
+
+    allCheckItems.forEach(item => {
+      const t = item.dataset.type;
+      if (!t) {
+        item.style.display = '';
+      } else if (t === 'outpatient') {
+        item.style.display = isOutpatient ? '' : 'none';
+      } else if (t === 'inpatient') {
+        item.style.display = isOutpatient ? 'none' : '';
+      }
+    });
+    updateBadges();
+  }
+
+  toggleInput.addEventListener('change', updateTypeVisibility);
+
+  // Badge update
+  function updateBadges() {
+    const isOutpatient = toggleInput.checked;
+    document.querySelectorAll('.phase-group').forEach(group => {
+      const phase = group.dataset.phase;
+      const items = group.querySelectorAll('.check-item');
+      let total = 0, done = 0;
+      items.forEach(item => {
+        const t = item.dataset.type;
+        // Skip hidden items
+        if (t === 'outpatient' && !isOutpatient) return;
+        if (t === 'inpatient' && isOutpatient) return;
+        total++;
+        if (checkedState[item.dataset.id]) done++;
+      });
+      const badge = group.querySelector('.phase-badge');
+      if (badge) {
+        if (total > 0 && done === total) {
+          badge.textContent = '\u2713 ' + total + '/' + total;
+          badge.classList.add('complete');
+        } else {
+          badge.textContent = done + '/' + total;
+          badge.classList.remove('complete');
+        }
+      }
+    });
+  }
+
+  // Click handler for check items
+  allCheckItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const id = item.dataset.id;
+      checkedState[id] = !checkedState[id];
+      item.classList.toggle('checked');
+      saveState();
+      updateBadges();
+    });
+  });
+
+  // Reset button
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    showModal('チェックリストをリセットしますか？', [
+      { text: 'キャンセル', cls: 'btn-secondary' },
+      { text: 'リセット', cls: 'btn-danger', action: resetState }
+    ]);
+  });
+
+  // Init: check for saved data
+  function init() {
+    const saved = loadState();
+    if (saved && Object.keys(saved).length > 0) {
+      showModal('前回のチェックリストデータがあります。継続しますか？', [
+        { text: 'リセット', cls: 'btn-danger', action: () => { resetState(); } },
+        { text: '継続する', cls: 'btn-primary', action: () => {
+          checkedState = saved;
+          applyState();
+        }}
+      ]);
+    }
+    updateTypeVisibility();
+  }
+
+  init();
+
+  // ===== Midazolam 16:00 Reminder =====
+  const midazBanners = document.querySelectorAll('#midaz-banner, #midaz-banner-drug');
+
+  function checkMidazTime() {
+    const now = new Date();
+    const totalMin = now.getHours() * 60 + now.getMinutes();
+    const show = totalMin >= 930 && totalMin < 1440; // 15:30〜23:59
+    midazBanners.forEach(b => b.classList.toggle('visible', show));
+  }
+
+  checkMidazTime();
+  setInterval(checkMidazTime, 60000);
+
+  // ===== Placeholder call buttons: show alert instead of blank call =====
+  document.querySelectorAll('.call-btn.placeholder, .call-btn-sm.placeholder').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showModal('電話番号が未設定です。\nHTMLファイルの href="tel:____" を実際の番号に更新してください。', [
+        { text: '閉じる', cls: 'btn-secondary' }
+      ]);
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
