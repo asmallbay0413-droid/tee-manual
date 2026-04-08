@@ -565,6 +565,19 @@ details.accordion .accordion-body .sub-list {
 }
 .id-table tr:last-child td { border-bottom: none; }
 .id-table td:first-child { font-weight: 600; width: 35%; }
+/* 2列レイアウト時のコンパクト化 (スマホ対応) */
+.id-table.staff-grid th,
+.id-table.staff-grid td { padding: 6px 4px; font-size: 12px; }
+.id-table.staff-grid td:first-child,
+.id-table.staff-grid td:nth-child(3) { width: 22%; font-weight: 600; }
+.id-table.staff-grid td:nth-child(2),
+.id-table.staff-grid td:nth-child(4) { width: 28%; }
+.id-table.staff-grid .id-val { font-size: 11px; letter-spacing: -0.3px; }
+@media (max-width: 480px) {
+  .id-table.staff-grid th,
+  .id-table.staff-grid td { padding: 5px 2px; font-size: 11px; }
+  .id-table.staff-grid .id-val { font-size: 10px; }
+}
 .id-val {
   font-family: 'SF Mono', 'Menlo', monospace;
   font-size: 15px;
@@ -1544,7 +1557,7 @@ details.accordion .accordion-body .sub-list {
     <h2 class="section-title">🪪 担当医・スタッフ ID</h2>
     <div class="alert alert-info" style="margin-bottom:16px"><span class="alert-icon">ℹ️</span>電子カルテログイン・処方オーダーに必要なIDを管理してください。</div>
 
-    <table class="id-table">
+    <table class="id-table staff-grid">
       <thead>
         <tr><th>氏名</th><th>院内ID / PHS</th><th>氏名</th><th>院内ID / PHS</th></tr>
       </thead>
