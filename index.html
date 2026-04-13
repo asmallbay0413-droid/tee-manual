@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -510,6 +511,7 @@ details.accordion .accordion-body .sub-list {
   overflow: hidden;
 }
 .contact-compact.urgent { border-top-color: #DC2626; }
+.contact-compact.duty { border-top-color: #16A34A; }
 .contact-compact .cc-info {
   padding: 8px 10px 4px;
   flex: 1;
@@ -1377,6 +1379,11 @@ details.accordion .accordion-body .sub-list {
       </div>
     </div>
 
+    <!-- 本日の不整脈科病棟当番 -->
+    <div class="contact-section-label">🩺 本日の不整脈科病棟当番</div>
+    <div id="duty-date-label" style="font-size:12px;color:var(--text-sub);margin:-2px 0 6px 4px;"></div>
+    <div id="duty-container" class="contact-grid"></div>
+
     <!-- 病棟・外来（2列グリッド） -->
     <div class="contact-section-label">🏥 病棟・外来</div>
 
@@ -1907,6 +1914,68 @@ details.accordion .accordion-body .sub-list {
 
   checkMidazTime();
   setInterval(checkMidazTime, 60000);
+
+  // ===== 本日の不整脈科病棟当番 =====
+  (function renderDuty() {
+    const dutySchedule = {
+      '2026-04-01': '廣瀬/松田',
+      '2026-04-02': '矢那瀬/大野',
+      '2026-04-03': '廣瀬/矢那瀬',
+      '2026-04-04': '廣瀬',
+      '2026-04-06': '松田/廣瀬',
+      '2026-04-07': '大野/矢那瀬',
+      '2026-04-08': '矢那瀬/松田',
+      '2026-04-09': '松田/堀口',
+      '2026-04-10': '廣瀬/江森',
+      '2026-04-11': '大野',
+      '2026-04-13': '矢那瀬/江森',
+      '2026-04-14': '松田/堀口',
+      '2026-04-15': '守井/廣瀬',
+      '2026-04-16': '黒川/江森',
+      '2026-04-17': '大野/堀口',
+      '2026-04-18': '黒川',
+      '2026-04-20': '宮永/江森',
+      '2026-04-21': '廣瀬/堀口',
+      '2026-04-22': '黒川/宮永',
+      '2026-04-23': '宮永/堀口',
+      '2026-04-24': '守井/江森',
+      '2026-04-25': '宮永',
+      '2026-04-27': '黒川/堀口',
+      '2026-04-28': '大野/矢那瀬',
+      '2026-04-29': '堀口',
+      '2026-04-30': '守井/堀口'
+    };
+    const phsMap = {
+      '松田': '60260', '堀口': '60087', '矢那瀬': '60263', '廣瀬': '60228', '大野': '60113', '江森': '60219', '黒川': '60088', '守井': '60086', '宮永': '60619'
+    };
+    const dayNames = ['日','月','火','水','木','金','土'];
+    const now = new Date();
+    const key = now.getFullYear() + '-' +
+      String(now.getMonth()+1).padStart(2,'0') + '-' +
+      String(now.getDate()).padStart(2,'0');
+    const dayName = dayNames[now.getDay()];
+
+    const label = document.getElementById('duty-date-label');
+    const container = document.getElementById('duty-container');
+    label.textContent = key.slice(5).replace('-','/') + ' ' + dayName + '曜日';
+
+    const duty = dutySchedule[key];
+    if (!duty) {
+      container.innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;padding:12px 0;color:var(--text-sub);font-size:13px;">' +
+        '本日は病棟当番の設定がありません</div>';
+      return;
+    }
+    const members = duty.split('/');
+    const labels = ['1st','2nd'];
+    container.innerHTML = members.map(function(name, i) {
+      const phs = phsMap[name] || '----';
+      return '<div class="contact-compact duty">' +
+        '<div class="cc-info"><div class="cc-name">' + labels[i] + '　' + name + '</div></div>' +
+        '<a href="tel:' + phs + '" class="call-btn-sm">' +
+        '<span class="call-icon">📞</span><span>' + phs + '</span></a></div>';
+    }).join('');
+  })();
 
   // ===== Placeholder call buttons: show alert instead of blank call =====
   document.querySelectorAll('.call-btn.placeholder, .call-btn-sm.placeholder').forEach(btn => {
